@@ -1,11 +1,47 @@
 {
-  "name": "truckloadserver",
+  "name": "server",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
-  "author": "",
-  "license": "ISC"
+  "engines": {
+    "node": "12.x",
+    "npm": "*"
+  },
+  "keywords": [],
+  "author": "deeyu",
+  "license": "MIT",
+  "dependencies": {
+    "auth0": "^2.36.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
+    "express": "^4.17.1",
+    "express-jwt": "^6.0.0",
+    "express-jwt-authz": "^2.4.1",
+    "joi": "^13.7.0",
+    "jsonwebtoken": "^8.5.1",
+    "jwks-rsa": "^1.12.3",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.11.9",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.2",
+    "node-fetch": "^2.6.1",
+    "stripe": "^8.169.0",
+    "volleyball": "^1.5.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrei-deeyu/fitserver.git"
+  },
+  "bugs": {
+    "url": "https://github.com/andrei-deeyu/fitserver/issues"
+  },
+  "homepage": "https://github.com/andrei-deeyu/fitserver#readme",
+  "description": ""
 }
