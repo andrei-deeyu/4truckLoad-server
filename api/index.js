@@ -55,78 +55,6 @@ function respondError500(res, next) {
   next(error);
 }
 
-// needed to be tested
-// warning
-
-router.get('/', (req, res, next) => {
-  return res.json({'whoa?': 'done. yep!'})
-})
-
-// @desc    Show Discovery experiences
-// @route   GET /discovery
-router.post('/discovery', async (req, res, next) => {
-  let pagination = req.body.pagination;
-  let limit = 10;
-  let offset = pagination * limit;
-
-  if (req.body.limit) limit = req.body.limit;
-  if(!pagination) pagination = 0;
-
-  console.log(pagination)
-  console.log(offset);
-
-
-  let start = new Date(new Date().getTime() - (7 * 60 * 60 * 24 * 1000));  // get date of last week
-
-  async function sortedResponseOf(questions) {
-    try {
-      function compare(a, b) {
-        if (a.data.upVotes < b.data.upVotes)
-          return 1;
-        if (a.data.upVotes > b.data.upVotes)
-          return -1;
-        return 0;
-      }
-
-      questions.forEach(element => {
-        if( req.user && element.data.upVotedBy.indexOf(req.user._id) > -1) {
-          element.data.upVoted = true;
-        } else {
-          element.data.upVoted = false;
-        }
-        delete element.data.upVotedBy;
-        delete element.data.appointedTo;
-      });
-
-      let sorted = questions.sort(compare);
-      res.json({ sorted });
-
-    } catch (err) {
-      console.error(err)
-      respondError500(res, next);
-    }
-  }
-
-  async function discovery(result) {
-    result = await Question.find({
-     // "data.createdAt": { "$gte": start.getTime() },
-      "data.answer": { $exists: true }
-    })
-    .sort({
-      'data.upVotes': -1,
-      'data.createdAt': -1
-    })
-    .skip(offset)
-    .limit(limit)
-      .populate()
-      .lean();
-
-    return result;
-  }
-
-  return sortedResponseOf( await discovery() );
-});
-
 
 // @desc   set Company info
 // @route   POST /company
@@ -234,8 +162,10 @@ router.get('/freight/:freightID', isLoggedIn, async (req, res, next) => {
         if( err ) return respondError500(res, next);
         // console.log(result);
 
-      if(req.user && req.user['https://www.dev-h1e424j0.us.auth0.com.subscription'] == "complet"
-      || req.user && req.user['https://www.dev-h1e424j0.us.auth0.com.subscription'] == "transportator"
+      if(
+        req.user && req.user['https://www.dev-h1e424j0.us.auth0.com.subscription'] == "complet"
+        ||
+        req.user && req.user['https://www.dev-h1e424j0.us.auth0.com.subscription'] == "transportator"
       ) {
         return res.json(result);
       } else {
