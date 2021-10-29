@@ -26,28 +26,6 @@ router.get('/', (req, res) => {
   });
 });
 
-const Freight = require('../models/Freight');
-
-router.get('/test', async (req, res, next) => {
-  var result;
-  let skipN;
-
-  if( req.get('skipN') ) skipN = JSON.parse(req.get('skipN'));
-  else skipN = 0;
-
-
-  let perPage = 8 + 1;
-  let n = skipN * perPage;
-
-  result = await Freight.find({})
-  .sort({ createdAt: -1 })
-  .skip(n)
-  .limit(perPage)
-    .populate()
-    .lean();
-console.log(result.length)
-    return res.json(result);
-});
 
 auth0.clientCredentialsGrant({ audience: 'https://dev-h1e424j0.us.auth0.com/api/v2/'}, (err, response) => {
   if (err) return respondError500(res, next);

@@ -234,7 +234,7 @@ router.get('/freight/:freightID', isLoggedIn, async (req, res, next) => {
         if( err ) return respondError500(res, next);
         // console.log(result);
 
-      if(req.user && req.user['https://www.dev-h1e424j0.us.auth0.com.subscription'] == "expeditor"
+      if(req.user && req.user['https://www.dev-h1e424j0.us.auth0.com.subscription'] == "complet"
       || req.user && req.user['https://www.dev-h1e424j0.us.auth0.com.subscription'] == "transportator"
       ) {
         return res.json(result);
@@ -268,7 +268,7 @@ router.post('/freight', isLoggedIn, async (req, res, next) => {
     return next(error02);
   }
 
-  if( result.error === null && req.user['https://www.dev-h1e424j0.us.auth0.com.subscription'] == "expeditor") {
+  if( result.error === null && req.user['https://www.dev-h1e424j0.us.auth0.com.subscription'] == "complet") {
     try {
 /*
           fromCompany: {
@@ -304,9 +304,9 @@ router.post('/freight', isLoggedIn, async (req, res, next) => {
       return respondError500(res, next);
     }
   } else {
-    if(req.user["https://www.dev-h1e424j0.us.auth0.com.subscription"] !== "expeditor") {
+    if(req.user["https://www.dev-h1e424j0.us.auth0.com.subscription"] !== "complet") {
       res.status(500);
-      const error = new Error('Ai nevoie de abonament de expeditor pentru asta');
+      const error = new Error('Ai nevoie de abonament complet pentru asta');
       return next(error);
     }
 

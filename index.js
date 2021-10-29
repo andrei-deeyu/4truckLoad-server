@@ -17,9 +17,9 @@ const experiences = require('./api');
 connectDB()
 
 app.use(volleyball);
-app.use(cors(
-  // {origin: '*'}
-));
+app.use(cors({
+  origin: '*'
+}));
 
 
 // Body parser
