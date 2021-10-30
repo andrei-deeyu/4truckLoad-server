@@ -26,6 +26,10 @@ router.get('/', (req, res) => {
   });
 });
 
+router.post('/cta', (req, res, next) => {
+  console.log(req.ip);
+  return res.json({'status': 'done'});
+});
 
 auth0.clientCredentialsGrant({ audience: 'https://dev-h1e424j0.us.auth0.com/api/v2/'}, (err, response) => {
   if (err) return respondError500(res, next);
