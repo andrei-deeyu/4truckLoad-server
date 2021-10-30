@@ -93,7 +93,10 @@ auth0.clientCredentialsGrant({ audience: 'https://dev-h1e424j0.us.auth0.com/api/
       console.log(req.user['https://www.dev-h1e424j0.us.auth0.com.subscription'])
       if(response.app_metadata && response.app_metadata.subscription !== req.user['https://www.dev-h1e424j0.us.auth0.com.subscription']) {
       console.log('true')
-      return res.json({ "refresh_the_Token": true })
+      return res.json({
+        "planName": response.app_metadata.subscription,
+        "refresh_the_Token": true
+      })
       }
       console.log('false')
       return res.json({ "refresh_the_Token": false })
