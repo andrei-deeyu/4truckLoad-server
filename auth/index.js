@@ -3,7 +3,8 @@ const { isLoggedIn } = require('./middlewares');
 const express = require('express'),
   router = express.Router(),
   fetch = require('node-fetch'),
-  AuthenticationClient = require('auth0').AuthenticationClient;
+  AuthenticationClient = require('auth0').AuthenticationClient
+  requestIp = require('request-ip');;
 
   var auth0 = new AuthenticationClient({
     domain: process.env.DOMAIN,
@@ -27,7 +28,8 @@ router.get('/', (req, res) => {
 });
 
 router.post('/cta', (req, res, next) => {
-  console.log(req.ip);
+  const clientIp = requestIp.getClientIp(req);
+  console.log(clientIp);
   return res.json({'status': 'done'});
 });
 
