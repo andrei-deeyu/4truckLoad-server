@@ -27,9 +27,27 @@ router.get('/', (req, res) => {
   });
 });
 
-router.post('/cta', (req, res, next) => {
+const Stats = require('../models/Stats');
+
+router.post('/cta', async (req, res, next) => {
   const clientIp = requestIp.getClientIp(req);
   console.log(clientIp);
+
+  let insertObject = {
+    ip: clientIp,
+    whichCTA: req.body.whichCTA
+  }
+
+    console.log(insertObject);
+
+  await Stats.create(insertObject, async (err, result) => {
+    if( err ) {
+      console.log(err);
+      return respondError500(res, next);
+    }
+
+    if(result) console.log(result);
+  });
   return res.json({'status': 'done'});
 });
 
