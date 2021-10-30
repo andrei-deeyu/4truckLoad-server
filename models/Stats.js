@@ -1,6 +1,11 @@
 const mongoose = require('mongoose')
 
 const Stats = new mongoose.Schema({
+  statsType: {
+    type: String,
+    unique: false
+  },
+
   ip: {
     type: String,
     unique: false

@@ -29,25 +29,19 @@ router.get('/', (req, res) => {
 
 const Stats = require('../models/Stats');
 
-router.post('/cta', async (req, res, next) => {
-  const clientIp = requestIp.getClientIp(req);
-  console.log(clientIp);
+router.post('/whichCTA', async (req, res, next) => {
+  let clientIp = requestIp.getClientIp(req);
 
   let insertObject = {
+    statsType: 'whichCTA',
     ip: clientIp,
     whichCTA: req.body.whichCTA
   }
 
-    console.log(insertObject);
-
   await Stats.create(insertObject, async (err, result) => {
-    if( err ) {
-      console.log(err);
-      return respondError500(res, next);
-    }
-
-    if(result) console.log(result);
+    if( err ) return;
   });
+
   return res.json({'status': 'done'});
 });
 
