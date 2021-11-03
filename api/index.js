@@ -149,6 +149,14 @@ console.log(result.length)
     return res.json(result);
 });
 
+// return boolean
+router.get('/userAddedFreights', isLoggedIn, async (req, res, next) => {
+  let x;
+  x = await Freight.findOne({ 'fromUser.email': req.user.email  });
+
+  if( x ) return res.json({ userAddedFreights: true })
+  else return res.json({ userAddedFreights: false })
+});
 
 // @desc  GET single freight/:id
 // @route   GET /freight/:id
@@ -198,7 +206,7 @@ router.post('/freight', isLoggedIn, async (req, res, next) => {
     return next(error02);
   }
 
-  if( result.error === null && req.user['https://www.dev-h1e424j0.us.auth0.com.subscription'] == "complet") {
+  if( result.error === null ) {
     try {
 /*
           fromCompany: {
@@ -234,12 +242,6 @@ router.post('/freight', isLoggedIn, async (req, res, next) => {
       return respondError500(res, next);
     }
   } else {
-    if(req.user["https://www.dev-h1e424j0.us.auth0.com.subscription"] !== "complet") {
-      res.status(500);
-      const error = new Error('Ai nevoie de abonament complet pentru asta');
-      return next(error);
-    }
-
     const error = new Error(result.error);
     res.status(422);
     return next(error);
