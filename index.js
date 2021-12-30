@@ -1,19 +1,21 @@
 const express = require('express');
 const volleyball = require('volleyball');
 const cors = require('cors');
-
 const methodOverride = require('method-override')
-const connectDB = require('./config/db')
 
+const connectDB = require('./config/db')
 
 // Load config
 require('dotenv').config({ path: './config/config.env' })
 
+// Initiate express
 const app = express();
 
+// Import our modules
 const auth = require('./auth');
-const experiences = require('./api');
+const api = require('./api');
 
+// Connect to cloud hosted MongoDB
 connectDB()
 
 app.use(volleyball);
@@ -40,9 +42,9 @@ app.use(
 
 app.get('/', (req, res) => {
   console.log(req.user)
-  if(req.user) {
+  if( req.user ) {
     return res.json({
-        message: '🦄🌈✨Hello World! 🌈✨🦄',
+        message: 'Hello World!',
         user: req.user,
     });
   } else {
@@ -52,7 +54,8 @@ app.get('/', (req, res) => {
 
 
 app.use('/auth', auth);
-app.use('/api/v1', experiences);
+app.use('/api/v1', api);
+
 
 function notFound(req, res, next) {
   res.status(404);
